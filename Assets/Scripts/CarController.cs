@@ -12,13 +12,17 @@ public class CarController : MonoBehaviour
     [SerializeField] float speedCheckInterval;
     [SerializeField] float torque, brakeTorque;
     [SerializeField] float steerAngle;
+
+    [SerializeField] AudioClip drift, idle, ride;
     private Vector3 lastPosition;
     private WheelFrictionCurve slip = new();
     private bool isBraking;
     private Vector2 direction;
+    private AudioSource source;
 
     private void Start()
     {
+        source = GetComponent<AudioSource>();
         StartCoroutine("SpeedMeasure");
         slip.extremumValue = 1;
         slip.asymptoteSlip = 0.5f;
@@ -35,6 +39,21 @@ public class CarController : MonoBehaviour
         UpdateWheelTransform(wheelFR, meshFR);
         UpdateWheelTransform(wheelRL, meshRL);
         UpdateWheelTransform(wheelRR, meshRR);
+        if (isBraking && lastPosition != transform.position)
+        {
+            source.clip = drift;
+            source.Play();
+        }
+        else if (direction.y == 0 && source.clip != idle && !isBraking)
+        {
+            source.clip = idle;
+            source.Play();
+        }
+        else if (direction.y != 0 && source.clip != ride && !isBraking)
+        {
+            source.clip = ride;
+            source.Play();
+        }
     }
 
     private void ProcessAcceleration()
@@ -76,7 +95,7 @@ public class CarController : MonoBehaviour
         while (true)
         {
             float distance = Vector3.Distance(lastPosition, transform.position);
-            int speed = (int) (distance * 3.6f / speedCheckInterval);
+            int speed = (int)(distance * 3.6f / speedCheckInterval);
             Debug.Log(distance * 3.6f / speedCheckInterval);
             speedText.text = $"{speed}";
             lastPosition = transform.position;
