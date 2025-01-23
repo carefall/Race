@@ -26,8 +26,12 @@ public class Laps : MonoBehaviour
             winPanel.SetActive(true);
             return;
         }
-        lap++;
-        laps.text = lap + "/" + transform.childCount;
-        transform.GetChild(lap - 1).gameObject.SetActive(true);
+        if (transform.GetChild(lap - 1).childCount == 0)
+        {
+            lap++;
+            laps.text = lap + "/" + transform.childCount;
+            transform.GetChild(lap - 1).gameObject.SetActive(true);
+        }
     }
+
 }
