@@ -7,14 +7,7 @@ public class Finish : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (laps.transform.childCount == 0)
-        {
-            // win
-        }
-        else if (laps.transform.GetChild(0).childCount == 0)
-        {
-            laps.OnFinishCross();
-        }
+        laps.OnFinishCross();
     }
 
 }
