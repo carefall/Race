@@ -39,7 +39,7 @@ public class CarController : MonoBehaviour
         UpdateWheelTransform(wheelFR, meshFR);
         UpdateWheelTransform(wheelRL, meshRL);
         UpdateWheelTransform(wheelRR, meshRR);
-        if (isBraking && lastPosition != transform.position)
+        if (isBraking && lastPosition != transform.position && source.clip != drift)
         {
             source.clip = drift;
             source.Play();
