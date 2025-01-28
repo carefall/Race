@@ -8,6 +8,9 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, followSpeed * Time.deltaTime);
+        Quaternion targetRotation = target.rotation;
+        targetRotation.z = 0;
+        targetRotation.x = 0;
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, followSpeed * Time.deltaTime);
     }
 }
