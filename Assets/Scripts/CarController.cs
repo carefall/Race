@@ -12,6 +12,8 @@ public class CarController : MonoBehaviour
     [SerializeField] float speedCheckInterval;
     [SerializeField] float torque, brakeTorque;
     [SerializeField] float steerAngle;
+    [SerializeField] float steerSpeed;
+    private float currentAngle;
 
     [SerializeField] AudioClip drift, idle, ride;
     private Vector3 lastPosition;
@@ -32,8 +34,19 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        wheelFL.steerAngle = steerAngle * direction.x;
-        wheelFR.steerAngle = steerAngle * direction.x;
+        if (direction.x == 0)
+        {
+            if (currentAngle > 0)
+            {
+                currentAngle = Mathf.Clamp(currentAngle - steerSpeed * Time.deltaTime, 0, steerAngle);
+            } else if (currentAngle < 0)
+            {
+                currentAngle = Mathf.Clamp(currentAngle + steerSpeed * Time.deltaTime, -steerAngle, 0);
+            }
+        }
+        currentAngle = Mathf.Clamp(currentAngle + steerSpeed * direction.x * Time.deltaTime, -steerAngle, steerAngle);
+        wheelFL.steerAngle = currentAngle;
+        wheelFR.steerAngle = currentAngle;
         ProcessAcceleration();
         UpdateWheelTransform(wheelFL, meshFL);
         UpdateWheelTransform(wheelFR, meshFR);
@@ -96,7 +109,6 @@ public class CarController : MonoBehaviour
         {
             float distance = Vector3.Distance(lastPosition, transform.position);
             int speed = (int)(distance * 3.6f / speedCheckInterval);
-            Debug.Log(distance * 3.6f / speedCheckInterval);
             speedText.text = $"{speed}";
             lastPosition = transform.position;
             yield return new WaitForSeconds(speedCheckInterval);

@@ -14,8 +14,8 @@ public class Timer : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
-        int seconds = (int) time;
-        int minutes = seconds / 60;
+        int minutes = (int) time / 60;
+        int seconds = (int) time % 60;
         text.text = (minutes > 9 ? minutes : "0" + minutes) + ":" + (seconds > 9? seconds : "0" + seconds);
     }
 }

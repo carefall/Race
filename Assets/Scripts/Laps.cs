@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Laps : MonoBehaviour
 {
@@ -13,6 +12,7 @@ public class Laps : MonoBehaviour
 
     private void Start()
     {
+        lap = 1;
         OnFinishCross();
     }
 
