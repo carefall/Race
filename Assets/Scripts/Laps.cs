@@ -13,6 +13,8 @@ public class Laps : MonoBehaviour
     private void Start()
     {
         lap = 1;
+        laps.text = lap + "/" + transform.childCount;
+        laps.enabled = true;
         OnFinishCross();
     }
 

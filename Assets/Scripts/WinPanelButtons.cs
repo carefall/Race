@@ -22,7 +22,7 @@ public class WinPanelButtons : MonoBehaviour
         StartCoroutine("LoadLevel", "Level" + level);
     }
 
-    public IEnumerator NextLevel(string scene)
+    public IEnumerator LoadLevel(string scene)
     {
         anim.Play("FadeNoSound");
         yield return new WaitForSeconds(1.2f);
