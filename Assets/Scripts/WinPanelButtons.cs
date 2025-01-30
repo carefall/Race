@@ -11,7 +11,7 @@ public class WinPanelButtons : MonoBehaviour
         int level = PlayerPrefs.GetInt("level") + 1;
         PlayerPrefs.SetInt("level", level);
         PlayerPrefs.Save();
-        StartCoroutine("LoadLevel", "Menu");
+        StartCoroutine(nameof(LoadLevel), "Menu");
     }
 
     public void Next()
@@ -19,7 +19,7 @@ public class WinPanelButtons : MonoBehaviour
         int level = PlayerPrefs.GetInt("level") + 1;
         PlayerPrefs.SetInt("level", level);
         PlayerPrefs.Save();
-        StartCoroutine("LoadLevel", "Level" + level);
+        StartCoroutine(nameof(LoadLevel), "Level" + level);
     }
 
     public IEnumerator LoadLevel(string scene)

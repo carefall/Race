@@ -25,11 +25,11 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         source = GetComponent<AudioSource>();
-        StartCoroutine("SpeedMeasure");
+        StartCoroutine(nameof(SpeedMeasure));
         slip.extremumValue = 1;
         slip.asymptoteSlip = 0.5f;
         slip.asymptoteValue = 0.75f;
-        slip.stiffness = 1;
+        slip.stiffness = 3;
     }
 
     private void Update()
@@ -52,6 +52,7 @@ public class CarController : MonoBehaviour
         UpdateWheelTransform(wheelFR, meshFR);
         UpdateWheelTransform(wheelRL, meshRL);
         UpdateWheelTransform(wheelRR, meshRR);
+        // UPDATE SOUNDS
         if (isBraking && lastPosition != transform.position && source.clip != drift)
         {
             source.clip = drift;
@@ -71,13 +72,16 @@ public class CarController : MonoBehaviour
 
     private void ProcessAcceleration()
     {
+        // UPDATE THIS SHIT TO NFS LEVEL BROOO
         wheelRL.motorTorque = torque * direction.y;
         wheelRR.motorTorque = torque * direction.y;
         wheelRL.brakeTorque = isBraking ? brakeTorque : 0;
         wheelRR.brakeTorque = isBraking ? brakeTorque : 0;
-        slip.extremumSlip = isBraking ? 0.9f : 0.2f;
+        slip.extremumSlip = isBraking ? 1f : 0.2f;
         wheelRL.sidewaysFriction = slip;
         wheelRR.sidewaysFriction = slip;
+        wheelFR.sidewaysFriction = slip;
+        wheelFL.sidewaysFriction = slip;
     }
 
 
@@ -117,6 +121,6 @@ public class CarController : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine("SpeedMeasure");
+        StopCoroutine(nameof(SpeedMeasure));
     }
 }
